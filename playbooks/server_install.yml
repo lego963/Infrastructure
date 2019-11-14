@@ -1,0 +1,6 @@
+---
+- name: Install simple-ex-webserver
+  hosts: local
+  become: yes
+  roles:
+    - role: webserver
