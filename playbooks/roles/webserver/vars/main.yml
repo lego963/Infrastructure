@@ -1,5 +1,5 @@
 version: "0.4.3"
-server: "simple-exquisite-webserver"
+server: "too_simple_server"
 server_archive_name: "{{ server }}-{{ version }}-linux.tar.gz"
 server_pid_file: "/tmp/simple-exquisite.pid"
 server_config_dir: "/opt/simple-exquisite"
