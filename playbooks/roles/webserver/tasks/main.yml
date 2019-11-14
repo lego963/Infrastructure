@@ -1,0 +1,57 @@
+---
+- name: Prepare server
+  become: yes
+  block:
+  - name: Check if server archive is downloaded already
+    stat:
+      path: "{{ archive_dir }}"
+    register: existing_file
+
+  - name: Log SHA1
+    debug:
+      var: sha1sum
+      verbosity: 1
+
+  - name: Compare checksum
+    set-fact:
+      force_new_download: "{{ existing_file.stat.checksum != sha1sum }}"
+
+  - block:
+    - name: Download simple-exquisite-webserver
+      get_url:
+        url: "{{ download_path }}"
+        dest: "/tmp/"
+        checksum: "sha1:{{ sha1sum }}"
+        force: yes
+
+    - name: Download simple-exquisite-webserver into usr/bin/
+      unarchive:
+        src: "{{ archive_dir }}"
+        dest: /usr/bin/
+        remote_src: yes
+  when: force_new_download | default ('false')
+
+- name: Stop server
+  command: "{{ server }} stop"
+  args:
+    removes: "{{ server_pid_file }}"
+  when: server_state == 'absent' or force_new_download
+
+- name: Configure and start
+  when: server_state == 'present' of force_new_download
+  block:
+    - name: Create config dir
+      become: yes
+      file:
+        mode: 0777
+        path: "{{ server_config_dir }}"
+        state: directory
+    - name: Write configuration
+      template:
+        src: config.yml.j2
+        dest: "{{ server_config }}"
+        force: yes
+    - name: Start server
+      command: "{{ server }} --config {{server_config}}"
+      args:
+        creates: "{{ server_pid_file }}"
