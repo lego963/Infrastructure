@@ -15,6 +15,7 @@
   - name: Compare checksum
     set-fact:
       force_new_download: "{{ existing_file.stat.checksum != sha1sum }}"
+    when: existing_file.stat.exists
 
   - block:
     - name: Download simple-exquisite-webserver
