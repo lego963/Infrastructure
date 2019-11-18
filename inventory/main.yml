@@ -7,4 +7,5 @@ all:
       ansible_python_interpreter: "/usr/bin/env python3"
     ecs:
       ansible_ssh_user: "ubuntu"
-      ansible_host: 80.158.7.172
+      # ansible_host: FILL
+      ansible_private_key_file: "~/.ssh/privateKey.pem"

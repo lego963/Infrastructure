@@ -25,10 +25,11 @@ resource "opentelekomcloud_vpc_eip_v1" "eip_1" {
 
 
 resource "opentelekomcloud_vpc_subnet_v1" "vpc_subnet_1" {
-  name       = "subnet_rgyrbu"
-  cidr       = "${var.net_address}.0/24"
-  gateway_ip = "${var.net_address}.1"
-  vpc_id     = opentelekomcloud_vpc_v1.vpc_1.id
+  name        = "subnet_rgyrbu"
+  cidr        = "${var.net_address}.0/24"
+  gateway_ip  = "${var.net_address}.1"
+  vpc_id      = opentelekomcloud_vpc_v1.vpc_1.id
+  primary_dns = "8.8.8.8"
 }
 
 
