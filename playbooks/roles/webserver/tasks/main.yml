@@ -62,4 +62,6 @@
         port: 5054
         timeout: 60
     - name: Check server with curl
-      shell: curl localhost:5054
+      uri:
+        url: "http://localhost:5054"
+        method: POST
