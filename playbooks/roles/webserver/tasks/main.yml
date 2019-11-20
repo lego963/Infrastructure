@@ -64,4 +64,4 @@
     - name: Check server with curl
       uri:
         url: "http://localhost:5054"
-        method: POST
+        method: GET
